@@ -8,15 +8,13 @@
 </head>
 <body>
 <form method="POST" action='meals' name="frmAdd">
-    <c:if test="${param.action != 'insert'}">
-        Meal ID : <c:out value="${meal.id}" /> <br/>
-    </c:if>
+    <input hidden type="number" name="id" size="70" value="${meal.id}"/>
     Description : <input
         type="text" name="description" size="70"
         value="<c:out value="${meal.description}" />"/> <br/>
     Date and Time : <input
         type="datetime-local" name="dateTime"
-        value="${meal.dateTime}" />"/> <br/>
+        value="${meal.dateTime}"/> <br/>
     Calories : <input
         type="number" min="1" name="calories" size="10"
         value="<c:out value="${meal.calories}" />"/> <br/>

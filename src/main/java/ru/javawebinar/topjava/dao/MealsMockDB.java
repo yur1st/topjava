@@ -4,63 +4,52 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MealsMockDB implements CRUDInterface<Meal>{
+public class MealsMockDB implements CrudInterface<Meal> {
 
-    private static final List<Meal> mealList = new CopyOnWriteArrayList<>();
+    private final Map<Integer, Meal> mealMap = new ConcurrentHashMap<>();
 
-    static {
-        mealList.addAll(Arrays.asList(
-                new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
-                new Meal(2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-                new Meal(3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
-                new Meal(4, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-                new Meal(5, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(6, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
-                new Meal(7, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-        ));
+    public MealsMockDB() {
+        mealMap.put(1, new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500));
+        mealMap.put(2, new Meal(2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000));
+        mealMap.put(3, new Meal(3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500));
+        mealMap.put(4, new Meal(4, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100));
+        mealMap.put(5, new Meal(5, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000));
+        mealMap.put(6, new Meal(6, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500));
+        mealMap.put(7, new Meal(7, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410));
     }
 
-    public static final AtomicInteger NEW_ID = new AtomicInteger(mealList.size()+1);
+    public static final AtomicInteger NEW_ID = new AtomicInteger(8);
 
     @Override
     public void add(Meal meal) {
-        mealList.add(meal);
+        mealMap.put(NEW_ID.getAndIncrement(), meal);
     }
 
     @Override
     public void delete(int id) {
-        mealList.removeIf(meal -> meal.getId() == id);
+        mealMap.remove(id);
     }
 
     @Override
     public void update(int id, Meal meal) {
-        for (Meal m : mealList) {
-            if (m.getId() == id) {
-                m.setDescription(meal.getDescription());
-                m.setDateTime(meal.getDateTime());
-                m.setCalories(meal.getCalories());
-                break;
-            }
-        }
+        mealMap.get(id).setDescription(meal.getDescription());
+        mealMap.get(id).setDateTime(meal.getDateTime());
+        mealMap.get(id).setCalories(meal.getCalories());
     }
 
     @Override
     public List<Meal> getAll() {
-        return mealList;
+        return new ArrayList<>(mealMap.values());
     }
 
     @Override
     public Meal getById(int id) {
-        for (Meal meal : mealList) {
-            if (meal.getId() == id) {
-                return meal;
-            }
-        }
-        return null;
+        return mealMap.get(id);
     }
 }

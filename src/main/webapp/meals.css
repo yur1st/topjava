@@ -1,0 +1,26 @@
+TABLE {
+    border-collapse: collapse;
+    width: 500px;
+}
+
+TH, TD {
+    border: 1px solid black;
+    text-align: left;
+    vertical-align: center;
+    padding: 2px;
+}
+
+TH {
+    height: 15px;
+    text-align: center;
+    vertical-align: bottom;
+    padding: 2px;
+}
+
+TR.normal {
+    background-color: #90ee90;
+}
+
+TR.excess {
+    background-color: #db7093;
+}
