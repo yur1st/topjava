@@ -5,30 +5,14 @@
 <html lang="ru">
 <head>
     <title>Meals</title>
+    <link rel="stylesheet" href="meals.css">
 </head>
 <body>
-<h3><a href="index.jsp">Home</a></h3>
+<h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-<style type="text/css">
-    TABLE {
-        border-collapse: collapse;
-        width: 500px;
-    }
-    TH, TD {
-        border: 1px solid black;
-        text-align: left;
-        vertical-align: center;
-        padding: 2px;
-    }
-    TH {
-        height: 15px;
-        text-align: center;
-        vertical-align: bottom;
-        padding: 2px;
-    }
-</style>
-<table border=1>
+
+<table>
     <caption>Meals list</caption>
     <thead>
     <tr>
@@ -40,16 +24,19 @@
     </tr>
     </thead>
     <tbody>
+    <jsp:useBean id="meals" scope="request" type="java.util.List"/>
+    <c:set var="count" value="1"/>
     <c:forEach items="${meals}" var="meal">
-        <c:set var="color" value="${(meal.excess == 'true') ? '#db7093' : '#90ee90'}" />
-        <tr bgcolor="${color}">
-        <td><c:out value="${meal.id}"/></td>
-        <td><c:out value="${meal.description}"/></td>
-        <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
-        <td><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/></td>
-        <td><c:out value="${meal.calories}"/></td>
-        <td><a href="meals?action=edit&id=<c:out value="${meal.id}"/>">Update</a></td>
-        <td><a href="meals?action=delete&id=<c:out value="${meal.id}"/>">Delete</a></td>
+        <c:set var="excess" value="${(meal.excess) ? 'excess' : 'normal'}"/>
+        <tr class="${excess}">
+            <td>${count}</td>
+            <td>${meal.description}</td>
+            <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/></td>
+            <td>${meal.calories}</td>
+            <td><a href="meals?action=edit&id=${meal.id}">Update</a></td>
+            <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+            <c:set var="count" value="${count+1}"/>
         </tr>
     </c:forEach>
     </tbody>
