@@ -11,13 +11,13 @@
     <input hidden type="number" name="id" size="70" value="${meal.id}"/>
     Description : <input
         type="text" name="description" size="70"
-        value="<c:out value="${meal.description}" />"/> <br/>
+        value="${meal.description}"/> <br/>
     Date and Time : <input
         type="datetime-local" name="dateTime"
         value="${meal.dateTime}"/> <br/>
     Calories : <input
         type="number" min="1" name="calories" size="10"
-        value="<c:out value="${meal.calories}" />"/> <br/>
+        value="<${meal.calories}"/> <br/>
     <input type="submit" value="Submit"/>
 </form>
 </body>

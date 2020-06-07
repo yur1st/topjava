@@ -37,12 +37,11 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String forward;
         String action;
         if (request.getParameter("action") != null) {
             action = request.getParameter("action");
         } else {
-            action = "listMeals";
+            action = "";
         }
 
         switch (action.toLowerCase()) {
@@ -50,7 +49,6 @@ public class MealServlet extends HttpServlet {
                 int mealId = Integer.parseInt(request.getParameter("id"));
                 dao.delete(mealId);
                 log.debug("deleted meal with id = {}", mealId);
-                request.setAttribute(MEALS, getAllMealsTo());
                 response.sendRedirect(MEALS);
                 break;
             }
@@ -62,16 +60,17 @@ public class MealServlet extends HttpServlet {
                 request.getRequestDispatcher(INSERT_OR_EDIT).forward(request, response);
                 break;
             }
-            case "listmeals": {
-                request.setAttribute(MEALS, getAllMealsTo());
-                log.debug("forward to meals");
-                request.getRequestDispatcher(LIST_MEALS).forward(request, response);
+            case "insert": {
+                log.debug("forward to insert/edit");
+                request.getRequestDispatcher(INSERT_OR_EDIT).forward(request, response);
                 break;
             }
             default: {
-                log.debug("forward to insert/edit");
-                request.getRequestDispatcher(INSERT_OR_EDIT).forward(request, response);
+                request.setAttribute(MEALS, getAllMealsTo());
+                log.debug("forward to meals");
+                request.getRequestDispatcher(LIST_MEALS).forward(request, response);
             }
+
         }
     }
 
@@ -85,12 +84,11 @@ public class MealServlet extends HttpServlet {
         }
         String description = request.getParameter("description");
         LocalDateTime date = LocalDateTime.parse(request.getParameter("dateTime"), dateTimeFormatter);
-        int calories = 0;
-        calories = Integer.parseInt(request.getParameter("calories"));
+        int calories = Integer.parseInt(request.getParameter("calories"));
 
         if (id == 0) {
-            dao.add(new Meal(dao.getNewId(), date, description, calories));
-            log.debug("add new meal with id = {}", dao.getNewId());
+            dao.add(new Meal(0, date, description, calories));
+            log.debug("add new meal");
         } else {
             dao.update(id, new Meal(id, date, description, calories));
             log.debug("update meal with id = {}", id);

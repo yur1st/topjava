@@ -11,7 +11,6 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-
 <table>
     <caption>Meals list</caption>
     <thead>
@@ -24,7 +23,6 @@
     </thead>
     <tbody>
     <jsp:useBean id="meals" scope="request" type="java.util.List"/>
-    <c:set var="count" value="1"/>
     <c:forEach items="${meals}" var="meal">
         <c:set var="excess" value="${(meal.excess) ? 'excess' : 'normal'}"/>
         <tr class="${excess}">
