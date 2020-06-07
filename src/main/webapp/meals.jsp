@@ -16,7 +16,6 @@
     <caption>Meals list</caption>
     <thead>
     <tr>
-        <th scope="col">№</th>
         <th scope="col">Description</th>
         <th scope="col">Date and Time</th>
         <th scope="col">Calories</th>
@@ -29,14 +28,12 @@
     <c:forEach items="${meals}" var="meal">
         <c:set var="excess" value="${(meal.excess) ? 'excess' : 'normal'}"/>
         <tr class="${excess}">
-            <td>${count}</td>
             <td>${meal.description}</td>
             <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
             <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/></td>
             <td>${meal.calories}</td>
             <td><a href="meals?action=edit&id=${meal.id}">Update</a></td>
             <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
-            <c:set var="count" value="${count+1}"/>
         </tr>
     </c:forEach>
     </tbody>

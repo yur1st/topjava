@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.CrudInterface;
-import ru.javawebinar.topjava.dao.MealsMockDB;
+import ru.javawebinar.topjava.dao.MealsMockDb;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -32,7 +32,7 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        dao = new MealsMockDB();
+        dao = new MealsMockDb();
     }
 
     @Override
@@ -89,8 +89,8 @@ public class MealServlet extends HttpServlet {
         calories = Integer.parseInt(request.getParameter("calories"));
 
         if (id == 0) {
-            dao.add(new Meal(MealsMockDB.NEW_ID.get(), date, description, calories));
-            log.debug("add new meal with id = {}", MealsMockDB.NEW_ID);
+            dao.add(new Meal(dao.getNewId(), date, description, calories));
+            log.debug("add new meal with id = {}", dao.getNewId());
         } else {
             dao.update(id, new Meal(id, date, description, calories));
             log.debug("update meal with id = {}", id);

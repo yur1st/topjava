@@ -12,4 +12,6 @@ public interface CrudInterface<T> {
     List<T> getAll();
 
     T getById(int id);
+
+    int getNewId();
 }

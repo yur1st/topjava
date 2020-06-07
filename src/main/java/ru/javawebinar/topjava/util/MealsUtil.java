@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.util;
 
-import ru.javawebinar.topjava.dao.MealsMockDB;
+import ru.javawebinar.topjava.dao.CrudInterface;
+import ru.javawebinar.topjava.dao.MealsMockDb;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 
@@ -12,8 +13,9 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
     public static void main(String[] args) {
+        CrudInterface<Meal> dao = new MealsMockDb();
 
-        List<MealTo> mealsTo = filteredByStreams(new MealsMockDB().getAll(), LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        List<MealTo> mealsTo = filteredByStreams(dao.getAll(), LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsTo.forEach(System.out::println);
     }
 
