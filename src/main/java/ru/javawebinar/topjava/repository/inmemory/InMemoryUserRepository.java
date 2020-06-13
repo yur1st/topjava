@@ -20,8 +20,8 @@ public class InMemoryUserRepository implements UserRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        save(new User(null, "User1", "user1@gmail.com", "passwd1", Role.USER, null));
-        save(new User(null, "admin", "admin@gmail.com", "passwd2", Role.ADMIN, null));
+        save(new User(null, "admin", "admin@gmail.com", "passwd2", Role.ADMIN));
+        save(new User(null, "User1", "user1@gmail.com", "passwd1", Role.USER));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Collection<User> getAll() {
+    public List<User> getAll() {
         log.info("getAll");
         return repository.values().stream()
                 .sorted(Comparator.comparing(AbstractNamedEntity::getName))
