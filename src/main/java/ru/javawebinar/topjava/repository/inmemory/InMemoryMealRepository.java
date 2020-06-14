@@ -10,10 +10,7 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -30,15 +27,14 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        if (meal.isNew() && userId != 0) {
+        if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), new Pair<>(userId, meal));
             log.info("save {}", meal);
             return meal;
         }
         // handle case: update, but not present in storage
-        if (repository.containsKey(meal.getId()) &&
-                repository.get(meal.getId()).first == userId) {
+        if (isBelongToUser(meal.getId(), userId)) {
             log.info("save {}", meal);
             return repository.computeIfPresent(meal.getId(),
                     (id, mealPair) -> new Pair<>(userId, meal)).second;
@@ -68,21 +64,27 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     private boolean isBelongToUser(int id, int userId) {
-        if (!repository.containsKey(id)) {
+        Pair<Integer, Meal> pair = repository.getOrDefault(id, null);
+        if (pair == null) {
             return false;
         }
-        return repository.get(id).first == userId;
+        return pair.first == userId;
     }
 
     @Override
-    public Collection<Meal> getAll(int userId) {
+    public List<Meal> getAll(int userId) {
         log.info("Return all rows");
-        return getDateFiltered(LocalDate.MIN, LocalDate.MAX, userId);
+        return getFiltered(LocalDate.MIN, LocalDate.MAX, userId);
     }
 
     @Override
-    public Collection<Meal> getDateFiltered(LocalDate startDate, LocalDate endDate, int userId) {
+    public List<Meal> getDateFiltered(LocalDate startDate, LocalDate endDate, int userId) {
         log.info("Return rows filtered by date");
+        return getFiltered(startDate, endDate, userId);
+    }
+
+    @Override
+    public List<Meal> getFiltered(LocalDate startDate, LocalDate endDate, int userId) {
         return repository.values().stream()
                 .filter(pair -> pair.first == userId)
                 .map(pair -> pair.second)
