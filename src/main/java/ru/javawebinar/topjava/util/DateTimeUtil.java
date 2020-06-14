@@ -17,16 +17,16 @@ public class DateTimeUtil {
         return param.compareTo(start) >= 0 && param.compareTo(end) <= 0;
     }
 
-    public static <T> T parse(String string, Class<T> tClass) {
-        switch (tClass.getSimpleName()) {
-            case ("LocalDate"):
-                return (T) LocalDate.parse(string, DATE_FORMATTER);
-            case ("LocalTime"):
-                return (T) LocalTime.parse(string, TIME_FORMATTER);
-            default:
-                throw new IllegalStateException("Unexpected value: " + tClass.getSimpleName());
+    public static <T> T parse(String string, Class<?> tClass) {
+        if (tClass.equals(LocalDate.class)) {
+            return (T) LocalDate.parse(string, DATE_FORMATTER);
         }
+        if (tClass.equals(LocalTime.class)) {
+            return (T) LocalTime.parse(string, TIME_FORMATTER);
+        }
+        throw new IllegalStateException("Unexpected value: " + tClass.getSimpleName());
     }
+
 
     public static String toString(LocalDateTime ldt) {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
