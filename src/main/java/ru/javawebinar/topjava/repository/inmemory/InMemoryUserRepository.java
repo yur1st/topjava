@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.AbstractNamedEntity;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -19,11 +18,6 @@ public class InMemoryUserRepository implements UserRepository {
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    {
-        save(new User(null, "admin", "admin@gmail.com", "passwd2", Role.ADMIN));
-        save(new User(null, "User1", "user1@gmail.com", "passwd1", Role.USER));
-    }
-
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
@@ -32,12 +26,13 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        log.info("save {}", user);
         if (user.isNew()) {
             user.setId(counter.incrementAndGet());
             repository.put(user.getId(), user);
+            log.info("save {}", user);
             return user;
         }
+        log.info("save {}", user);
         return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
     }
 
