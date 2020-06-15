@@ -27,13 +27,13 @@ public class MealsUtil {
     );
 
     public static final List<Meal> USER2_TEST_MEALS = Arrays.asList(
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 400),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 600),
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Еда", 400),
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Средняя еда", 600),
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Обжиралово", 1200),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 900),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 600),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 600),
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Полдник", 200),
+            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Пропустил обед", 600)
     );
 
     private MealsUtil() {
