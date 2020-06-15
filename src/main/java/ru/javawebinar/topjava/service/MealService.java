@@ -47,12 +47,6 @@ public class MealService {
     }
 
     public Collection<Meal> getDateFiltered(LocalDate startDate, LocalDate endDate, int userId) {
-        if (startDate == null) {
-            startDate = LocalDate.MIN;
-        }
-        if (endDate == null) {
-            endDate = LocalDate.MAX;
-        }
         log.info("Get filtered meals");
         return repository.getDateFiltered(startDate, endDate, userId);
     }

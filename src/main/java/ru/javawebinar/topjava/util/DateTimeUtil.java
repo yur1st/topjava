@@ -14,7 +14,7 @@ public class DateTimeUtil {
     }
 
     public static <T extends Comparable<T>> boolean isBetween(T param, T start, T end) {
-        return param.compareTo(start) >= 0 && param.compareTo(end) <= 0;
+        return param.compareTo(start) >= 0 && param.compareTo(end) < 0;
     }
 
     public static <T> T parse(String string, Class<?> tClass) {

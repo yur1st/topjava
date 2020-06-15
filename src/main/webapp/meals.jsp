@@ -23,21 +23,6 @@
     <hr/>
     <h2>Meals</h2>
     Вы вошли как пользователь: ${authUser}
-    <div>
-        <form method="post" action="meals">
-            <input type="hidden" name="_method" value="put"/>
-            <div>
-                <label for="userId">Войти как пользователь:</label>
-                <select name="userId" id="userId">
-                    <option <c:if test="${authUser == 1}">selected="selected"</c:if>>1</option>
-                    <option <c:if test="${authUser == 2}">selected="selected"</c:if>>2</option>
-                </select>
-            </div>
-            <button type="submit">
-                Войти
-            </button>
-        </form>
-    </div>
     <br>
     <div>
         <form method="get" action="meals">

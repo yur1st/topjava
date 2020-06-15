@@ -35,19 +35,7 @@ public class MealsUtil {
     }
 
     public static List<MealTo> getFilteredTos(Collection<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        if (startTime == null) {
-            startTime = LocalTime.MIN;
-        }
-        if (endTime == null) {
-            endTime = LocalTime.MAX;
-        } else if (endTime.compareTo(LocalTime.MIN.plusMinutes(1)) == 0) {
-            endTime = LocalTime.MIN;
-        } else {
-            endTime = endTime.minusMinutes(1);
-        }
-        LocalTime finalStartTime = startTime;
-        LocalTime finalEndTime = endTime;
-        return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetween(meal.getTime(), finalStartTime, finalEndTime));
+               return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetween(meal.getTime(), startTime, endTime));
     }
 
     public static List<MealTo> filterByPredicate(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
