@@ -81,10 +81,10 @@ public class MealServlet extends HttpServlet {
                 break;
             case "filter":
                 log.info("get Filtered rows");
-                LocalTime startTime = parseLocalDateOrTime(request, "startTime", LocalTime.class);
-                LocalTime endTime = parseLocalDateOrTime(request, "endTime", LocalTime.class);
-                LocalDate startDate = parseLocalDateOrTime(request, "startDate", LocalDate.class);
-                LocalDate endDate = parseLocalDateOrTime(request, "endDate", LocalDate.class);
+                LocalTime startTime = parseLocalTime(request, "startTime");
+                LocalTime endTime = parseLocalTime(request, "endTime");
+                LocalDate startDate = parseLocalDate(request, "startDate");
+                LocalDate endDate = parseLocalDate(request, "endDate");
                 request.setAttribute("meals",
                         mealRestController.getDateFiltered(startDate,
                                 endDate,
@@ -102,13 +102,22 @@ public class MealServlet extends HttpServlet {
         }
     }
 
-    private <T> T parseLocalDateOrTime(HttpServletRequest request, String paramName, Class<T> tClass) {
-        T t = null;
+    private LocalDate parseLocalDate(HttpServletRequest request, String paramName) {
+        LocalDate result = null;
         String string = request.getParameter(paramName);
         if (!string.isEmpty()) {
-            t = DateTimeUtil.parse(string, tClass);
+            result = DateTimeUtil.parseDate(string);
         }
-        return t;
+        return result;
+    }
+
+    private LocalTime parseLocalTime(HttpServletRequest request, String paramName) {
+        LocalTime result = null;
+        String string = request.getParameter(paramName);
+        if (!string.isEmpty()) {
+            result = DateTimeUtil.parseTime(string);
+        }
+        return result;
     }
 
     private int getId(HttpServletRequest request) {

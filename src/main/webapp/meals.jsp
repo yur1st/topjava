@@ -22,7 +22,8 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
-    Вы вошли как пользователь: ${authUser}
+    Вы вошли как пользователь:<b> ${authUser} </b>
+    <br>
     <br>
     <div>
         <form method="get" action="meals">
