@@ -13,7 +13,6 @@ public class MealTestData {
     public static final int NOT_FOUND = 10;
     public static final int FIRST_MEAL_ID = 100002;
     public static final int USER_ID = 100000;
-    public static final int WRONG_USER_ID = 100001;
     public static final LocalDate START_DATE = LocalDate.of(2020, 1, 30);
     public static final LocalDate END_DATE = LocalDate.of(2020, 1, 30);
 
@@ -31,7 +30,7 @@ public class MealTestData {
     }
 
     public static Meal getNew() {
-        return new Meal(null, LocalDateTime.now(), "Test Meal", 2000);
+        return new Meal(null, LocalDateTime.of(2020, 6, 23, 10, 35), "Test Meal", 2000);
     }
 
     public static Meal getUpdated() {
