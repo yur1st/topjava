@@ -48,11 +48,6 @@ public class MealServiceTest {
     }
 
     @Test
-    public void getNotFoundWrongUser() {
-        assertThrows(NotFoundException.class, () -> service.get(FIRST_MEAL_ID, WRONG_USER_ID));
-    }
-
-    @Test
     public void delete() {
         service.delete(FIRST_MEAL_ID, USER_ID);
         assertNull(repository.get(FIRST_MEAL_ID, USER_ID));
@@ -61,11 +56,6 @@ public class MealServiceTest {
     @Test
     public void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, USER_ID));
-    }
-
-    @Test
-    public void deleteNotFoundWrongUser() {
-        assertThrows(NotFoundException.class, () -> service.delete(FIRST_MEAL_ID, WRONG_USER_ID));
     }
 
     @Test
@@ -85,12 +75,6 @@ public class MealServiceTest {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
         assertMatch(service.get(FIRST_MEAL_ID, USER_ID), updated);
-    }
-
-    @Test
-    public void updateWrongUser() {
-        Meal updated = getUpdated();
-        assertThrows(NotFoundException.class, () -> service.update(updated, WRONG_USER_ID));
     }
 
     @Test
