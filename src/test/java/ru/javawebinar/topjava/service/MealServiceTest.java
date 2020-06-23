@@ -27,7 +27,9 @@ import static ru.javawebinar.topjava.MealTestData.*;
 public class MealServiceTest {
 
     static {
-        SLF4JBridgeHandler.install();
+        if (!SLF4JBridgeHandler.isInstalled()) {
+            SLF4JBridgeHandler.install();
+        }
     }
 
     @Autowired
