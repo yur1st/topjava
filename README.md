@@ -1,4 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c59eaf0ada234426bd797e42e63328ef)](https://www.codacy.com/manual/yur1st/topjava20?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yur1st/topjava20&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/yur1st/topjava20.svg?branch=master)](https://travis-ci.org/yur1st/topjava20)
 
 Java Enterprise Online Project 
 ===============================
