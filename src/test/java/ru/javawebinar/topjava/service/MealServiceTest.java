@@ -1,6 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +34,37 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
+
+    public static String watchedLog = "";
+    private static long startTime;
+
+    @AfterClass
+    public static void printSummary() {
+        System.out.println();
+        System.out.println("Test execution time summary:");
+        System.out.println(watchedLog);
+    }
+
+    @Rule
+    public TestName name = new TestName();
+
+    @Rule
+    public final TestRule watchman = new TestWatcher() {
+
+        @Override
+        protected void starting(Description description) {
+            startTime = System.currentTimeMillis();
+        }
+
+        @Override
+        protected void finished(Description description) {
+            String message = String.format("%s - %dms",
+                    name.getMethodName(),
+                    System.currentTimeMillis() - startTime);
+            System.out.println(message);
+            watchedLog += message + "\n";
+        }
+    };
 
     @Test
     public void delete() throws Exception {
