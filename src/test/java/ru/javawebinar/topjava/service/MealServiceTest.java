@@ -18,6 +18,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -34,15 +35,10 @@ public class MealServiceTest {
 
     private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
 
-    private static String watchedLog = "";
+    private static StringBuilder watchedLog = new StringBuilder();
 
     @Autowired
     private MealService service;
-
-    @AfterClass
-    public static void printSummary() {
-        log.info("\n\nTest execution time summary:\n" + watchedLog);
-    }
 
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
@@ -51,11 +47,16 @@ public class MealServiceTest {
         protected void finished(long nanos, Description description) {
             String message = String.format("%-30.30s %6dms",
                     description.getMethodName(),
-                    nanos / 1000000);
+                    TimeUnit.NANOSECONDS.toMillis(nanos));
             log.info(message);
-            watchedLog += message + "\n";
+            watchedLog.append(message).append("\n");
         }
     };
+
+    @AfterClass
+    public static void printSummary() {
+        log.info("\n\nTest execution time summary:\n" + watchedLog.toString());
+    }
 
     @Test
     public void delete() throws Exception {
