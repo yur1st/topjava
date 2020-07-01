@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.service;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
+import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,36 +32,27 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+
+    private static String watchedLog = "";
+
     @Autowired
     private MealService service;
 
-    public static String watchedLog = "";
-    private static long startTime;
-
     @AfterClass
     public static void printSummary() {
-        System.out.println();
-        System.out.println("Test execution time summary:");
-        System.out.println(watchedLog);
+        log.info("\n\nTest execution time summary:\n" + watchedLog);
     }
 
     @Rule
-    public TestName name = new TestName();
-
-    @Rule
-    public final TestRule watchman = new TestWatcher() {
+    public Stopwatch stopwatch = new Stopwatch() {
 
         @Override
-        protected void starting(Description description) {
-            startTime = System.currentTimeMillis();
-        }
-
-        @Override
-        protected void finished(Description description) {
-            String message = String.format("%s - %dms",
-                    name.getMethodName(),
-                    System.currentTimeMillis() - startTime);
-            System.out.println(message);
+        protected void finished(long nanos, Description description) {
+            String message = String.format("%-30.30s %6dms",
+                    description.getMethodName(),
+                    nanos / 1000000);
+            log.info(message);
             watchedLog += message + "\n";
         }
     };
