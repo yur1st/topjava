@@ -4,5 +4,5 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
 
 @ActiveProfiles(profiles = {Profiles.JPA})
-public class JpaUserServiceTesst extends UserServiceTest{
+public class JpaUserServiceTest extends UserServiceTest {
 }
