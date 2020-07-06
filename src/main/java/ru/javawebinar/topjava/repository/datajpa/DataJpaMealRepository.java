@@ -3,29 +3,31 @@ package ru.javawebinar.topjava.repository.datajpa;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DataJpaMealRepository implements MealRepository {
-    private static final Sort SORT_DATE_DESC = Sort.by(Sort.Direction.DESC, "date_time");
 
     private final CrudMealRepository crudRepository;
+    private final CrudUserRepository crudUserRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
         this.crudRepository = crudRepository;
+        this.crudUserRepository = crudUserRepository;
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        User mealUser = crudRepository.getOne(meal.getId()).getUser();
-        if (mealUser != null && mealUser.getId() == userId) {
-            return crudRepository.save(meal);
+        meal.setUser(crudUserRepository.getOne(userId));
+        if (!meal.isNew() && get(meal.getId(), userId) == null) {
+            return null;
         }
-        return null;
+        return crudRepository.save(meal);
     }
 
     @Override
@@ -35,7 +37,8 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        Meal meal = crudRepository.getOne(id);
+        Meal meal = crudRepository.findById(id).orElse(null);
+        if (meal == null) return null;
         return meal.getUser().getId() == userId ? meal : null;
     }
 
