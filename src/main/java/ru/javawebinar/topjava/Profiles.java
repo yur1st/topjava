@@ -13,7 +13,7 @@ public class Profiles {
             HSQL_DB = "hsqldb";
 
     //  Get DB profile depending of DB driver in classpath
-    public static String[] getActiveDbAndRepositoryProfiles() {
+    public static String[] getActiveDbProfile() {
         try {
             Class.forName("org.postgresql.Driver");
             return new String[]{POSTGRES_DB};
