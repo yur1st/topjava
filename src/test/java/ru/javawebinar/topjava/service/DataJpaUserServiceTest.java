@@ -18,7 +18,7 @@ public class DataJpaUserServiceTest extends UserServiceTest {
     public void getWithMeals() throws Exception {
         User user = service.getWithMeals(ADMIN_ID);
         List<Meal> meals = user.getMeals();
-        USER_MATCHER_WITHOUT_MEALS.assertMatch(user, ADMIN);
+        USER_MATCHER.assertMatch(user, ADMIN);
         MEAL_MATCHER.assertMatch(meals, ADMIN_MEAL2, ADMIN_MEAL1);
     }
 }
